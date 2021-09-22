@@ -9,10 +9,10 @@
         <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
           <ul class="nav nav-tabs">
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#signIn">Sign In</a>
+              <a class="nav-link" data-toggle="tab" href="#signIn" v-on:click="limpiarCampos">Sign In</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#signup">Sign Up</a>
+              <a class="nav-link" data-toggle="tab" href="#signup" v-on:click="limpiarCampos">Sign Up</a>
             </li>
           </ul>
           <div class="tab-content">
@@ -124,6 +124,10 @@ export default {
         .catch((error) => {
             alert("Error. Puede ser que el usuario ya exista");
         });
+    },
+    limpiarCampos: function(){
+      this.user_in.username="",
+      this.user_in.password=""
     },
   }
 };

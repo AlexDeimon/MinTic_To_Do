@@ -28,7 +28,7 @@
             <form v-on:submit.prevent="deleteTask">
               <div class="form-group">
                 <h4>Task Name:</h4>
-                <input type="text" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" v-model="deleteTaskTask.taskTittle"/>
+                <input type="text" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" v-model="deleteTaskTask.taskTittle" required/>
               </div>
               <button type="submit" class="btn">Delete Task</button>
             </form>
@@ -48,15 +48,15 @@
             <form v-on:submit.prevent="updateTask">
               <div class="form-group">
                 <h4><label class="col-form-label">Task Name:</label></h4>
-                <input type="text" class="form-control rounded" id="task-title" v-model="taskByUserIdAndTaskTittle.taskTittle"/>
+                <input type="text" class="form-control rounded" id="task-title" v-model="taskByUserIdAndTaskTittle.taskTittle" required/>
               </div>
               <div class="form-group">
                 <h4><label class="col-form-label">Task Category:</label></h4>
-                <input type="text" class="form-control rounded" id="task-category" v-model="taskByUserIdAndTaskTittle.taskCategory"/>
+                <input type="text" class="form-control rounded" id="task-category" v-model="taskByUserIdAndTaskTittle.taskCategory" required/>
               </div>
               <div class="form-group">
                 <h4><label class="col-form-label">Task Description:</label></h4>
-                <textarea rows="4" class="form-control rounded" id="task-description" v-model="taskByUserIdAndTaskTittle.taskDescription"></textarea>
+                <textarea rows="4" class="form-control rounded" id="task-description" v-model="taskByUserIdAndTaskTittle.taskDescription" required></textarea>
               </div>
               <div class="form-group">
                 <h4><label class="col-form-label">Task Status:</label></h4>
@@ -68,7 +68,7 @@
               </div>
               <div class="form-group">
                 <h4><label class="col-form-label">Task Date:</label></h4>
-                <input type="date" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" id="task-date" v-model="taskByUserIdAndTaskTittle.taskDate"/>
+                <input type="date" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" id="task-date" v-model="taskByUserIdAndTaskTittle.taskDate" required/>
               </div>
               <button type="submit" class="btn">Update Task</button>
             </form>
