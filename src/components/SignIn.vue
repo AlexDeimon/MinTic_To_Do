@@ -122,7 +122,7 @@ export default {
           alert("Usuario creado de manera correcta")
         })
         .catch((error) => {
-            alert("Error");
+            alert("Error. Puede ser que el usuario ya exista");
         });
     },
   }

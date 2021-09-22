@@ -16,7 +16,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Delete Category</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" v-on:click="limpiarCampos">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -36,8 +36,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel" >New Category</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="exampleModalLabel">New Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" v-on:click="limpiarCampos">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -119,6 +119,11 @@ export default {
         alert("No se ha eliminado la categoria, es posible que no exista");
       });
     },
+    limpiarCampos: function(){
+      this.createCategoryCategory.categoryName="",
+      this.createCategoryCategory.categoryColor="",
+      this.deleteCategoryCategory.categoryName=""
+    }
   }
 }
 </script>

@@ -4,8 +4,8 @@
       <div class="row d-flex align-items-center justify-content-around h-100">
         <div class="col-md-4 col-lg-3 col-xl-4 flex-column d-flex justify-content-between">
           <div class="input-group inputfecha">
-            <input type="date" id="input-date" class="form-control rounded" aria-label="Search" aria-describedby="search-addon"/>
-            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#searchModal">Check Tasks</button>
+            <input type="date" id="input-date" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" v-model="taskDate"/>
+            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#searchModal" v-on:click="searchTaskByTaskDate">Check Tasks</button>
           </div>
           <button type="button" class="btn btn1" data-toggle="modal" data-target="#newModal">New Task</button>
           <button type="button" class="btn btn1" data-toggle="modal" data-target="#updateModal">Update Task</button>
@@ -22,13 +22,13 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Delete Task</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"  v-on:click="limpiarCampos"><span aria-hidden="true">&times;</span></button>
           </div>
           <div class="modal-body">
             <form v-on:submit.prevent="deleteTask">
               <div class="form-group">
                 <h4>Task Name:</h4>
-                <input type="text" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" id="buscar-tarea" v-model="deleteTaskTask.taskTittle"/>
+                <input type="text" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" v-model="deleteTaskTask.taskTittle"/>
               </div>
               <button type="submit" class="btn">Delete Task</button>
             </form>
@@ -42,38 +42,33 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Update Task</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"  v-on:click="limpiarCampos2"><span aria-hidden="true">&times;</span></button>
           </div>
           <div class="modal-body">
             <form v-on:submit.prevent="updateTask">
               <div class="form-group">
                 <h4><label class="col-form-label">Task Name:</label></h4>
-                <div class="input-group">
-                  <input type="text" class="form-control" v-model="updateTaskTask.taskTittle">
-                  <div class="input-group-append">
-                    <button class="btn" type="button" v-on:click="getTask">Search</button>
-                  </div>
-                </div>
+                <input type="text" class="form-control rounded" id="task-title" v-model="taskByUserIdAndTaskTittle.taskTittle"/>
               </div>
               <div class="form-group">
                 <h4><label class="col-form-label">Task Category:</label></h4>
-                <input type="text" class="form-control rounded" id="task-category" v-model="updateTaskTask.taskCategory"/>
+                <input type="text" class="form-control rounded" id="task-category" v-model="taskByUserIdAndTaskTittle.taskCategory"/>
               </div>
               <div class="form-group">
                 <h4><label class="col-form-label">Task Description:</label></h4>
-                <textarea rows="4" class="form-control rounded" id="task-description" v-model="updateTaskTask.description"></textarea>
+                <textarea rows="4" class="form-control rounded" id="task-description" v-model="taskByUserIdAndTaskTittle.taskDescription"></textarea>
               </div>
               <div class="form-group">
-                <h4><label class="col-form-label">Status:</label></h4>
-                <select class="form-control rounded" v-model="updateTaskTask.taskStatus" required>
-                  <option value="To Do" selected>To Do</option>
+                <h4><label class="col-form-label">Task Status:</label></h4>
+                <select class="form-control rounded" v-model="taskByUserIdAndTaskTittle.taskStatus" id="task-status" required>
+                  <option value="To Do">To Do</option>
                   <option value="In Progress">In Progress</option>
                   <option value="Done">Done</option>
                 </select>
               </div>
               <div class="form-group">
                 <h4><label class="col-form-label">Task Date:</label></h4>
-                <input type="date" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" id="buscar-tarea" v-model="updateTaskTask.finalDate"/>
+                <input type="date" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" id="task-date" v-model="taskByUserIdAndTaskTittle.taskDate"/>
               </div>
               <button type="submit" class="btn">Update Task</button>
             </form>
@@ -85,22 +80,22 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Nueva tarea</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h5 class="modal-title" id="exampleModalLabel">New Task</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"  v-on:click="limpiarCampos"><span aria-hidden="true">&times;</span></button>
           </div>
           <div class="modal-body">
             <form v-on:submit.prevent="newTask">
               <div class="form-group">
                 <h4><label class="col-form-label">Name:</label></h4>
-                <input type="text" class="form-control rounded" id="task-name" v-model="task.taskTittle" required/>
+                <input type="text" class="form-control rounded" v-model="task.taskTittle" required/>
               </div>
               <div class="form-group">
                 <h4><label class="col-form-label">Category:</label></h4>
-                <input type="text" class="form-control rounded" id="task-category" v-model="task.taskCategory" required/>
+                <input type="text" class="form-control rounded" v-model="task.taskCategory" required/>
               </div>
               <div class="form-group">
                 <h4><label class="col-form-label">Description:</label></h4>
-                <textarea rows="4" class="form-control rounded" id="task-description" v-model="task.taskDescription" required></textarea>
+                <textarea rows="4" class="form-control rounded" v-model="task.taskDescription" required></textarea>
               </div>
               <div class="form-group">
                 <h4><label class="col-form-label">Status:</label></h4>
@@ -111,10 +106,10 @@
                 </select>
               </div>
               <div class="form-group">
-                <h4><label class="col-form-label">Fecha de entrega:</label></h4>
-                <input type="date" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" id="buscar-tarea" v-model="task.taskDate" required/>
+                <h4><label class="col-form-label">Date:</label></h4>
+                <input type="date" class="form-control rounded" aria-label="Search" aria-describedby="search-addon" v-model="task.taskDate" required/>
               </div>
-              <button type="submit" class="btn">Añadir tarea</button>
+              <button type="submit" class="btn">Add Task</button>
             </form>
           </div>
         </div>
@@ -124,17 +119,17 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Tareas</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h5 class="modal-title" id="exampleModalLabel">Tasks {{taskDate}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"  v-on:click="limpiarCampos"><span aria-hidden="true">&times;</span></button>
           </div>
           <div class="modal-body">
-            <ul v-for="task in taskByTaskDate" :key="task.taskTitle">>
+            <ul v-for="task in taskByUserIdAndTaskDate" :key="task.taskTittle">
               <li class="itemTask">
                 <ul>
-                  <li>{{task.taskTittle}}</li>
-                  <li>{{task.status}}</li>
-                  <li>{{task.description}}</li>
-                  <li>{{task.taskCategory}}</li>
+                  <li><span>Name: </span>{{task.taskTittle}}</li>
+                  <li><span>Status: </span>{{task.taskStatus}}</li>
+                  <li><span>Description: </span>{{task.taskDescription}}</li>
+                  <li><span>Category: </span>{{task.taskCategory}}</li>
                 </ul>
               </li>
             </ul>
@@ -161,7 +156,13 @@ export default {
         taskStatus:"",
         taskDate:"",
       },
-      updateTaskTask:{
+      deleteTaskTask:{
+        userId: localStorage.getItem("user_id"),
+        taskTittle:"",
+        response: "",
+      },
+      taskByUserIdAndTaskDate: [],
+      taskByUserIdAndTaskTittle: {
         taskId: "",
         userId: localStorage.getItem("user_id"),
         taskTittle:"",
@@ -170,15 +171,61 @@ export default {
         taskStatus:"",
         taskDate:"",
       },
-      deleteTaskTask:{
+      updateTaskTask: {
         userId: localStorage.getItem("user_id"),
-        taskTittle:"",
-        response: "",
+        taskTittle: "",
+        taskCategory:"",
+        taskDescription:"",
+        taskStatus:"",
+        taskDate:"",
       },
-      taskByTaskDate: [],
       userId: localStorage.getItem("user_id"),
       taskDate: "",
     };
+  },
+  apollo: {
+    taskByUserIdAndTaskDate: {
+      query: gql`
+        query Query($taskByUserIdAndTaskDateUserId: String!, $taskByUserIdAndTaskDateTaskDate: String!) {
+          taskByUserIdAndTaskDate(userId: $taskByUserIdAndTaskDateUserId, taskDate: $taskByUserIdAndTaskDateTaskDate) {
+            taskId
+            userId
+            taskTittle
+            taskCategory
+            taskDescription
+            taskStatus
+            taskDate
+          }
+        }
+        `,
+        variables() {
+          return{
+            taskByUserIdAndTaskDateUserId: this.userId,
+            taskByUserIdAndTaskDateTaskDate: this.taskDate
+          }
+        }
+    },
+    taskByUserIdAndTaskTittle: {
+      query: gql`
+        query Query($taskByUserIdAndTaskTittleUserId: String!, $taskByUserIdAndTaskTittleTaskTittle: String!) {
+          taskByUserIdAndTaskTittle(userId: $taskByUserIdAndTaskTittleUserId, taskTittle: $taskByUserIdAndTaskTittleTaskTittle) {
+            taskId
+            userId
+            taskTittle
+            taskCategory
+            taskDescription
+            taskStatus
+            taskDate
+          }
+        }
+        `,
+        variables() {
+          return{
+            taskByUserIdAndTaskTittleUserId: this.taskByUserIdAndTaskTittle.userId,
+            taskByUserIdAndTaskTittleTaskTittle: this.taskByUserIdAndTaskTittle.taskTittle
+          }
+        }
+    }
   },
   methods:{
     newTask: async function () {
@@ -206,6 +253,12 @@ export default {
       });
     },
     updateTask: async function () {
+      this.updateTaskTask.userId = this.taskByUserIdAndTaskTittle.userId
+      this.updateTaskTask.taskTittle = document.getElementById('task-title').value
+      this.updateTaskTask.taskCategory = document.getElementById('task-category').value
+      this.updateTaskTask.taskDescription = document.getElementById('task-description').value
+      this.updateTaskTask.taskStatus = document.getElementById('task-status').value
+      this.updateTaskTask.taskDate = document.getElementById('task-date').value
       await this.$apollo.mutate({
         mutation: gql`
         mutation Mutation($updateTaskTaskId: String!, $updateTaskTask: TaskInput!) {
@@ -221,7 +274,7 @@ export default {
         }
         `,
         variables: {
-          updateTaskTaskId: this.updateTaskTask.taskId,
+          updateTaskTaskId: this.taskByUserIdAndTaskTittle.taskId,
           updateTaskTask: this.updateTaskTask
         },
       }).then((result) => {
@@ -248,28 +301,32 @@ export default {
       }).catch((error) => {
         alert("No se ha eliminado la tarea, es posible que no exista");
       });
+    },
+    limpiarCampos: function(){
+      this.task.taskTittle= "",
+      this.task.taskCategory="",
+      this.task.taskDescription="",
+      this.task.taskStatus="",
+      this.task.taskDate="",
+      this.deleteTaskTask.taskTittle="",
+      this.taskByUserIdAndTaskDate="",
+      this.taskByUserIdAndTaskTittle.taskId="",
+      this.taskByUserIdAndTaskTittle.taskTittle= "",
+      this.taskByUserIdAndTaskTittle.taskCategory="",
+      this.taskByUserIdAndTaskTittle.taskDescription="",
+      this.taskByUserIdAndTaskTittle.taskStatus="",
+      this.taskByUserIdAndTaskTittle.taskDate="",
+      this.updateTaskTask.taskTittle="",
+      this.updateTaskTask.taskCategory="",
+      this.updateTaskTask.taskDescription="",
+      this.updateTaskTask.taskStatus="",
+      this.updateTaskTask.taskDate="",
+      this.taskDate=""
+    },
+    limpiarCampos2: function(){
+      location.reload()
     }
   },
-  // apollo:{
-  //   taskByTaskDate:{
-  //     query: gql`
-  //     query Query($taskByUserIdAndTaskDateUserId: String!, $taskByUserIdAndTaskDateTaskDate: String!) {
-  //       taskByUserIdAndTaskDate(userId: $taskByUserIdAndTaskDateUserId, taskDate: $taskByUserIdAndTaskDateTaskDate) {
-  //         taskId
-  //         userId
-  //         taskTittle
-  //         taskCategory
-  //         taskDescription
-  //         taskStatus
-  //         taskDate
-  //       }
-  //     }
-  //     `,
-  //     variables: {
-        
-  //     },
-  //   }
-  // }
 } 
 </script>
 
@@ -314,5 +371,12 @@ li {
 .itemTask {
   border: 1px solid #000;
   border-radius: 10px;
+}
+.itemTask li{
+  display: block;
+}
+.itemTask li span{
+  color: #5264ef;
+  font-weight: bold;
 }
 </style>
